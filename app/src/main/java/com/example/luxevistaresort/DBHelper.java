@@ -219,4 +219,83 @@ public class DBHelper extends SQLiteOpenHelper {
     private String currentTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
     }
+
+    public void insertDummyData() {
+        insertDummyRooms();
+        insertDummyServices();
+        insertDummyAttractions();
+        insertDummyPromotions();
+    }
+
+    private void insertDummyRooms() {
+        for (int i = 1; i <= 5; i++) {
+            addRoom(
+                    "Room " + i,
+                    "Deluxe",
+                    "This is the description of Room " + i,
+                    100 + i * 20,
+                    2 + (i % 3),
+                    "room" + i + ".jpg"
+            );
+        }
+        for (int i = 6; i <= 10; i++) {
+            addRoom(
+                    "Room " + i,
+                    "Suite",
+                    "This is the description of Room " + i,
+                    100 + i * 20,
+                    2 + (i % 3),
+                    "room" + i + ".jpg"
+            );
+        }
+        for (int i = 11; i <= 15; i++) {
+            addRoom(
+                    "Room " + i,
+                    "Standard",
+                    "This is the description of Room " + i,
+                    100 + i * 20,
+                    2 + (i % 3),
+                    "room" + i + ".jpg"
+            );
+        }
+    }
+
+    private void insertDummyServices() {
+        for (int i = 1; i <= 10; i++) {
+            addService(
+                    "Service " + i,
+                    "Description of Service " + i,
+                    30 + i * 10,
+                    50 + i * 15,
+                    "service" + i + ".jpg"
+            );
+        }
+    }
+
+    private void insertDummyAttractions() {
+        SQLiteDatabase db = getWritableDatabase();
+        for (int i = 1; i <= 10; i++) {
+            ContentValues cv = new ContentValues();
+            cv.put("title", "Attraction " + i);
+            cv.put("description", "Description of Attraction " + i);
+            cv.put("distance", (i * 2) + " km");
+            cv.put("contact", "contact" + i + "@example.com");
+            db.insert("attractions", null, cv);
+        }
+    }
+
+    private void insertDummyPromotions() {
+        SQLiteDatabase db = getWritableDatabase();
+        String today = currentTime().split(" ")[0];
+        for (int i = 1; i <= 10; i++) {
+            ContentValues cv = new ContentValues();
+            cv.put("title", "Promotion " + i);
+            cv.put("description", "Description of Promotion " + i);
+            cv.put("start_date", today);
+            cv.put("end_date", today);
+            cv.put("active", 1);
+            db.insert("promotions", null, cv);
+        }
+    }
+
 }

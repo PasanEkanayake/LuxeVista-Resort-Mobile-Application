@@ -1,24 +1,64 @@
 package com.example.luxevistaresort;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class RoomDetailsActivity extends AppCompatActivity {
+
+    TextView txtName, txtDescription, txtPrice;
+    ImageView imageView;
+    Button btnBook;
+    DBHelper dbHelper;
+    int roomId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_room_details);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        txtName = findViewById(R.id.txtRoomName);
+        txtDescription = findViewById(R.id.txtRoomDescription);
+        txtPrice = findViewById(R.id.txtRoomPrice);
+        imageView = findViewById(R.id.imgRoom);
+        btnBook = findViewById(R.id.btnBookRoom);
+
+        dbHelper = new DBHelper(this);
+        roomId = getIntent().getIntExtra("room_id", -1);
+
+        loadRoomDetails();
+
+        btnBook.setOnClickListener(v -> {
+            Intent i = new Intent(RoomDetailsActivity.this, BookRoomActivity.class);
+            i.putExtra("room_id", roomId);
+            startActivity(i);
         });
+    }
+
+    private void loadRoomDetails() {
+        Cursor cursor = dbHelper.getAllRooms();
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+                if (id == roomId) {
+                    String name = cursor.getString(cursor.getColumnIndexOrThrow("name"));
+                    String description = cursor.getString(cursor.getColumnIndexOrThrow("description"));
+                    double price = cursor.getDouble(cursor.getColumnIndexOrThrow("price_per_night"));
+
+                    txtName.setText(name);
+                    txtDescription.setText(description);
+                    txtPrice.setText("₹" + price + " per night");
+
+                    // TODO: load images (Glide/Picasso)
+                    break;
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
     }
 }

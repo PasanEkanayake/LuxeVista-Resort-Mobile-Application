@@ -1,24 +1,61 @@
 package com.example.luxevistaresort;
 
+import android.database.Cursor;
 import android.os.Bundle;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class BookRoomActivity extends AppCompatActivity {
+
+    DatePicker startDatePicker, endDatePicker;
+    EditText edtGuests;
+    Button btnConfirm;
+    DBHelper dbHelper;
+    int roomId, userId = 1; // for demo; should be from logged-in user
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_book_room);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        startDatePicker = findViewById(R.id.startDatePicker);
+        endDatePicker = findViewById(R.id.endDatePicker);
+        edtGuests = findViewById(R.id.edtGuests);
+        btnConfirm = findViewById(R.id.btnConfirmBooking);
+
+        dbHelper = new DBHelper(this);
+        roomId = getIntent().getIntExtra("room_id", -1);
+
+        btnConfirm.setOnClickListener(v -> confirmBooking());
+    }
+
+    private void confirmBooking() {
+        String startDate = startDatePicker.getYear() + "-" + (startDatePicker.getMonth()+1) + "-" + startDatePicker.getDayOfMonth();
+        String endDate = endDatePicker.getYear() + "-" + (endDatePicker.getMonth()+1) + "-" + endDatePicker.getDayOfMonth();
+
+        double totalPrice = 0;
+        // Simplified: fetch price from DB
+        Cursor cursor = dbHelper.getAllRooms();
+        if (cursor.moveToFirst()) {
+            do {
+                if (cursor.getInt(cursor.getColumnIndexOrThrow("id")) == roomId) {
+                    totalPrice = cursor.getDouble(cursor.getColumnIndexOrThrow("price_per_night"));
+                    break;
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+
+        long bookingId = dbHelper.bookRoom(userId, roomId, startDate, endDate, totalPrice);
+        if (bookingId > 0) {
+            Toast.makeText(this, "Booking Confirmed!", Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            Toast.makeText(this, "Failed to book room.", Toast.LENGTH_LONG).show();
+        }
     }
 }

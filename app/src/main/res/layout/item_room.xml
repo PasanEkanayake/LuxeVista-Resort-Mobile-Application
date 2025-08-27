@@ -4,6 +4,7 @@
     android:padding="10dp"
     android:orientation="horizontal"
     android:background="@drawable/bg_card"
+    android:backgroundTint="#004859"
     android:layout_margin="5dp">
 
     <ImageView
@@ -24,6 +25,7 @@
             android:text="Room Name"
             android:textStyle="bold"
             android:textSize="16sp"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -31,13 +33,14 @@
             android:id="@+id/txtRoomItemType"
             android:text="Type"
             android:textSize="14sp"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/txtRoomItemPrice"
             android:text="₹1000 / night"
-            android:textColor="@android:color/holo_green_dark"
+            android:textColor="#5CED73"
             android:textSize="14sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

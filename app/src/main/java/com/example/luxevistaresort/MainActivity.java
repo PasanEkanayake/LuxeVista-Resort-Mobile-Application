@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dbHelper = new DBHelper(this);
+        dbHelper.insertDummyData();
 
         tvWelcome = findViewById(R.id.tvWelcome);
         tvPromoCount = findViewById(R.id.tvPromoCount);
