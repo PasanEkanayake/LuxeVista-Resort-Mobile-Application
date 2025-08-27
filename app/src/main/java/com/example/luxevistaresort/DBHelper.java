@@ -227,75 +227,194 @@ public class DBHelper extends SQLiteOpenHelper {
         insertDummyPromotions();
     }
 
-    private void insertDummyRooms() {
-        for (int i = 1; i <= 5; i++) {
-            addRoom(
-                    "Room " + i,
-                    "Deluxe",
-                    "This is the description of Room " + i,
-                    100 + i * 20,
-                    2 + (i % 3),
-                    "room" + i + ".jpg"
-            );
-        }
-        for (int i = 6; i <= 10; i++) {
-            addRoom(
-                    "Room " + i,
-                    "Suite",
-                    "This is the description of Room " + i,
-                    100 + i * 20,
-                    2 + (i % 3),
-                    "room" + i + ".jpg"
-            );
-        }
-        for (int i = 11; i <= 15; i++) {
-            addRoom(
-                    "Room " + i,
-                    "Standard",
-                    "This is the description of Room " + i,
-                    100 + i * 20,
-                    2 + (i % 3),
-                    "room" + i + ".jpg"
-            );
-        }
+    public void insertDummyRooms() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // Room 1 - Suite
+        cv.put("name", "Ocean View Suite");
+        cv.put("room_type", "Suite");
+        cv.put("description", "Spacious suite with panoramic ocean views and luxury amenities.");
+        cv.put("price_per_night", 12000);
+        cv.put("capacity", 4);
+        cv.put("images", "suite1.jpg,suite2.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
+
+        // Room 2 - Deluxe
+        cv.put("name", "Deluxe King Room");
+        cv.put("room_type", "Deluxe");
+        cv.put("description", "Elegant room with king-sized bed and modern facilities.");
+        cv.put("price_per_night", 8000);
+        cv.put("capacity", 2);
+        cv.put("images", "deluxe1.jpg,deluxe2.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
+
+        // Room 3 - Standard
+        cv.put("name", "Standard Twin Room");
+        cv.put("room_type", "Standard");
+        cv.put("description", "Comfortable room with twin beds and essential amenities.");
+        cv.put("price_per_night", 5000);
+        cv.put("capacity", 2);
+        cv.put("images", "standard1.jpg,standard2.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
+
+        // Room 4 - Suite
+        cv.put("name", "Presidential Suite");
+        cv.put("room_type", "Suite");
+        cv.put("description", "Luxurious suite with private terrace, Jacuzzi, and exclusive services.");
+        cv.put("price_per_night", 20000);
+        cv.put("capacity", 4);
+        cv.put("images", "suite3.jpg,suite4.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
+
+        // Room 5 - Deluxe
+        cv.put("name", "Deluxe Ocean Room");
+        cv.put("room_type", "Deluxe");
+        cv.put("description", "Modern deluxe room with stunning sea views and premium comfort.");
+        cv.put("price_per_night", 9000);
+        cv.put("capacity", 2);
+        cv.put("images", "deluxe3.jpg,deluxe4.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
+
+        // Room 6 - Standard
+        cv.put("name", "Standard Queen Room");
+        cv.put("room_type", "Standard");
+        cv.put("description", "Cozy room with queen bed, ideal for couples or solo travelers.");
+        cv.put("price_per_night", 5500);
+        cv.put("capacity", 2);
+        cv.put("images", "standard3.jpg,standard4.jpg");
+        cv.put("available", 1);
+        db.insert("rooms", null, cv);
+        cv.clear();
     }
 
-    private void insertDummyServices() {
-        for (int i = 1; i <= 10; i++) {
-            addService(
-                    "Service " + i,
-                    "Description of Service " + i,
-                    30 + i * 10,
-                    50 + i * 15,
-                    "service" + i + ".jpg"
-            );
-        }
+    public void insertDummyServices() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues cv = new ContentValues();
+
+        // SPA
+        cv.put("name", "Spa");
+        cv.put("description", "Relaxing spa experience with massages and aromatherapy.");
+        cv.put("duration_minutes", 60);
+        cv.put("price", 1500);
+        cv.put("images", "spa1.jpg,spa2.jpg");
+        db.insert("services", null, cv);
+        cv.clear();
+
+        // Dining
+        cv.put("name", "Dining");
+        cv.put("description", "Exclusive fine dining experience with gourmet meals.");
+        cv.put("duration_minutes", 90);
+        cv.put("price", 2000);
+        cv.put("images", "dining1.jpg,dining2.jpg");
+        db.insert("services", null, cv);
+        cv.clear();
+
+        // Cabana
+        cv.put("name", "Cabana");
+        cv.put("description", "Private cabana rental with ocean view and amenities.");
+        cv.put("duration_minutes", 180);
+        cv.put("price", 5000);
+        cv.put("images", "cabana1.jpg,cabana2.jpg");
+        db.insert("services", null, cv);
+        cv.clear();
+
+        // Tours
+        cv.put("name", "Tours");
+        cv.put("description", "Guided tours to explore the surrounding attractions.");
+        cv.put("duration_minutes", 120);
+        cv.put("price", 2500);
+        cv.put("images", "tours1.jpg,tours2.jpg");
+        db.insert("services", null, cv);
+        cv.clear();
     }
 
-    private void insertDummyAttractions() {
-        SQLiteDatabase db = getWritableDatabase();
-        for (int i = 1; i <= 10; i++) {
-            ContentValues cv = new ContentValues();
-            cv.put("title", "Attraction " + i);
-            cv.put("description", "Description of Attraction " + i);
-            cv.put("distance", (i * 2) + " km");
-            cv.put("contact", "contact" + i + "@example.com");
-            db.insert("attractions", null, cv);
-        }
+    public void insertDummyAttractions() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // Attraction 1
+        cv.put("title", "Sunset Beach");
+        cv.put("description", "Beautiful beach perfect for watching sunsets and relaxing.");
+        cv.put("distance", "2 km from resort");
+        cv.put("contact", "+94112223344");
+        db.insert("attractions", null, cv);
+        cv.clear();
+
+        // Attraction 2
+        cv.put("title", "Mountain Trail");
+        cv.put("description", "Scenic hiking trail with breathtaking mountain views.");
+        cv.put("distance", "5 km from resort");
+        cv.put("contact", "+94112225566");
+        db.insert("attractions", null, cv);
+        cv.clear();
+
+        // Attraction 3
+        cv.put("title", "City Museum");
+        cv.put("description", "Explore local history and cultural artifacts at the city museum.");
+        cv.put("distance", "3 km from resort");
+        cv.put("contact", "+94112227788");
+        db.insert("attractions", null, cv);
+        cv.clear();
+
+        // Attraction 4
+        cv.put("title", "Botanical Gardens");
+        cv.put("description", "Stroll through beautiful gardens with exotic plants and flowers.");
+        cv.put("distance", "4 km from resort");
+        cv.put("contact", "+94112229900");
+        db.insert("attractions", null, cv);
+        cv.clear();
+
+        // Attraction 5
+        cv.put("title", "Adventure Park");
+        cv.put("description", "Fun-filled adventure park with ziplining and obstacle courses.");
+        cv.put("distance", "6 km from resort");
+        cv.put("contact", "+94112221122");
+        db.insert("attractions", null, cv);
+        cv.clear();
     }
 
-    private void insertDummyPromotions() {
-        SQLiteDatabase db = getWritableDatabase();
-        String today = currentTime().split(" ")[0];
-        for (int i = 1; i <= 10; i++) {
-            ContentValues cv = new ContentValues();
-            cv.put("title", "Promotion " + i);
-            cv.put("description", "Description of Promotion " + i);
-            cv.put("start_date", today);
-            cv.put("end_date", today);
-            cv.put("active", 1);
-            db.insert("promotions", null, cv);
-        }
+    public void insertDummyPromotions() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        // Promotion 1
+        cv.put("title", "Summer Special");
+        cv.put("description", "Enjoy 20% off on all suite bookings this summer.");
+        cv.put("start_date", "2025-06-01");
+        cv.put("end_date", "2025-08-31");
+        cv.put("active", 1);
+        db.insert("promotions", null, cv);
+        cv.clear();
+
+        // Promotion 2
+        cv.put("title", "Weekend Getaway");
+        cv.put("description", "Book a deluxe room and get free spa access on weekends.");
+        cv.put("start_date", "2025-01-01");
+        cv.put("end_date", "2025-12-31");
+        cv.put("active", 1);
+        db.insert("promotions", null, cv);
+        cv.clear();
+
+        // Promotion 3
+        cv.put("title", "Dining Delight");
+        cv.put("description", "Complimentary dinner for two with any room booking over 2 nights.");
+        cv.put("start_date", "2025-03-01");
+        cv.put("end_date", "2025-05-31");
+        cv.put("active", 1);
+        db.insert("promotions", null, cv);
+        cv.clear();
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.luxevistaresort;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
@@ -42,7 +43,6 @@ public class BookRoomActivity extends AppCompatActivity {
         String endDate = endDatePicker.getYear() + "-" + (endDatePicker.getMonth()+1) + "-" + endDatePicker.getDayOfMonth();
 
         double totalPrice = 0;
-        // Simplified: fetch price from DB
         Cursor cursor = dbHelper.getAllRooms();
         if (cursor.moveToFirst()) {
             do {
@@ -57,9 +57,13 @@ public class BookRoomActivity extends AppCompatActivity {
         long bookingId = dbHelper.bookRoom(userId, roomId, startDate, endDate, totalPrice);
         if (bookingId > 0) {
             Toast.makeText(this, "Booking Confirmed!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(BookRoomActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Failed to book room.", Toast.LENGTH_LONG).show();
         }
     }
+
 }

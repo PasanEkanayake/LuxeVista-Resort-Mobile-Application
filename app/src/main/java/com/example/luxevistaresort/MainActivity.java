@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         dbHelper = new DBHelper(this);
-        dbHelper.insertDummyData();
 
         tvWelcome = findViewById(R.id.tvWelcome);
         tvPromoCount = findViewById(R.id.tvPromoCount);
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Navigation Section
         cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
-//        cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
+        cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
 //        cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
 //        cardOffers.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
 //        cardAttractions.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));

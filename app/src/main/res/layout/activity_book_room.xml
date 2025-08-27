@@ -16,7 +16,6 @@
         android:paddingStart="20dp"
         android:paddingEnd="20dp">
 
-        <!-- Back Button and Logo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,16 +38,25 @@
                 android:contentDescription="@string/app_name" />
         </LinearLayout>
 
-        <!-- Select Dates Title -->
         <TextView
-            android:text="Select Dates"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:text="Select the Dates of Your Stay"
+            android:textSize="24sp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#198450"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="Arrival Date:"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#198450"
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- Start Date Picker -->
         <DatePicker
             android:id="@+id/startDatePicker"
             android:layout_width="match_parent"
@@ -56,7 +64,15 @@
             android:calendarViewShown="true"
             android:layout_marginTop="8dp" />
 
-        <!-- End Date Picker -->
+        <TextView
+            android:text="Checkout Date:"
+            android:textSize="20sp"
+            android:fontFamily="@font/poppins_semibold"
+            android:textColor="#198450"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <DatePicker
             android:id="@+id/endDatePicker"
             android:layout_width="match_parent"
@@ -64,7 +80,6 @@
             android:calendarViewShown="true"
             android:layout_marginTop="8dp" />
 
-        <!-- Number of Guests -->
         <EditText
             android:id="@+id/edtGuests"
             android:hint="Number of Guests"
@@ -76,7 +91,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp" />
 
-        <!-- Confirm Booking Button -->
         <Button
             android:id="@+id/btnConfirmBooking"
             android:text="Confirm Booking"

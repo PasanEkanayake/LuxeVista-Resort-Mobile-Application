@@ -39,7 +39,7 @@
 
         <TextView
             android:id="@+id/txtRoomItemPrice"
-            android:text="₹1000 / night"
+            android:text="Rs. 1000 / night"
             android:textColor="#5CED73"
             android:textSize="14sp"
             android:layout_width="wrap_content"

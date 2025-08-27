@@ -13,6 +13,12 @@
         android:theme="@style/Theme.LuxeVistaResort"
         tools:targetApi="31">
         <activity
+            android:name=".ServiceDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ServicesActivity"
+            android:exported="false" />
+        <activity
             android:name=".BookRoomActivity"
             android:exported="false" />
         <activity

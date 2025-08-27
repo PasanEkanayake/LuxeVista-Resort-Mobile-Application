@@ -13,6 +13,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private DBHelper dbHelper;
     private static final int SPLASH_DELAY = 2000;
     private static final String PREFS_NAME = "LuxeVistaPrefs";
     private static final String KEY_USER_ID = "user_id";
@@ -27,6 +28,9 @@ public class SplashActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        dbHelper = new DBHelper(this);
+        dbHelper.insertDummyData();
 
         new Handler().postDelayed(() -> {
             if (isLoggedIn()) {
