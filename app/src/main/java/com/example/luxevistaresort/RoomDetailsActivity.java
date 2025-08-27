@@ -22,6 +22,9 @@ public class RoomDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_details);
 
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
+
         txtName = findViewById(R.id.txtRoomName);
         txtDescription = findViewById(R.id.txtRoomDescription);
         txtPrice = findViewById(R.id.txtRoomPrice);
