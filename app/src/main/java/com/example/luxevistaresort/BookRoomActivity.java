@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,12 +16,15 @@ public class BookRoomActivity extends AppCompatActivity {
     EditText edtGuests;
     Button btnConfirm;
     DBHelper dbHelper;
-    int roomId, userId = 1; // for demo; should be from logged-in user
+    int roomId, userId = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_room);
+
+        ImageView btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(v -> finish());
 
         startDatePicker = findViewById(R.id.startDatePicker);
         endDatePicker = findViewById(R.id.endDatePicker);
