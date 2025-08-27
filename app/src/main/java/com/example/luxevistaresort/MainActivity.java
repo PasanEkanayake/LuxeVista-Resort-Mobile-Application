@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         tvAttractionCount.setText(String.valueOf(getAttractionsCount()));
 
         // Navigation Section
-//        cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
+        cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
 //        cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
 //        cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
 //        cardOffers.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));

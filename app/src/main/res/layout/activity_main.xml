@@ -40,7 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp"
                     android:text="Welcome to LuxeVista"
-                    android:textSize="16sp"
+                    android:textSize="24sp"
+                    android:fontFamily="@font/poppins_semibold"
                     android:textColor="@android:color/white"/>
             </LinearLayout>
 
