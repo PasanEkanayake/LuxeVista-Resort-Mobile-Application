@@ -1,5 +1,6 @@
 package com.example.luxevistaresort;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
@@ -83,6 +84,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
         if (result > 0) {
             Toast.makeText(this, "Service reserved successfully!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(ServiceDetailsActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         } else {
             Toast.makeText(this, "Failed to reserve service.", Toast.LENGTH_LONG).show();

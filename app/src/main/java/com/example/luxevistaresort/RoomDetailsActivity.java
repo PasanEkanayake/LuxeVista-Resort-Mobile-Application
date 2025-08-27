@@ -55,9 +55,7 @@ public class RoomDetailsActivity extends AppCompatActivity {
 
                     txtName.setText(name);
                     txtDescription.setText(description);
-                    txtPrice.setText("₹" + price + " per night");
-
-                    // TODO: load images (Glide/Picasso)
+                    txtPrice.setText("Rs. " + price + " per night");
                     break;
                 }
             } while (cursor.moveToNext());

@@ -40,7 +40,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         Room room = rooms.get(position);
         holder.txtName.setText(room.getName());
         holder.txtType.setText(room.getType());
-        holder.txtPrice.setText("₹" + room.getPrice() + " / night");
+        holder.txtPrice.setText("Rs. " + room.getPrice() + " / night");
 
         // Load image with Glide (if available)
         if (room.getImages() != null && !room.getImages().isEmpty()) {
