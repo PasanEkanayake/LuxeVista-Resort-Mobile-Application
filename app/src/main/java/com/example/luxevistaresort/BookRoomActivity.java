@@ -1,6 +1,7 @@
 package com.example.luxevistaresort;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
@@ -17,7 +18,10 @@ public class BookRoomActivity extends AppCompatActivity {
     EditText edtGuests;
     Button btnConfirm;
     DBHelper dbHelper;
-    int roomId, userId = 1;
+    int roomId;
+    private int userId;
+    private static final String PREFS_NAME = "LuxeVistaPrefs";
+    private static final String KEY_USER_ID = "user_id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +38,17 @@ public class BookRoomActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
         roomId = getIntent().getIntExtra("room_id", -1);
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        userId = prefs.getInt(KEY_USER_ID, -1);
+
+        if (userId == -1) {
+            Toast.makeText(this, "Please log in first.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         btnConfirm.setOnClickListener(v -> confirmBooking());
     }

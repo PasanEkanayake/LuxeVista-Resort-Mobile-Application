@@ -1,6 +1,7 @@
 package com.example.luxevistaresort;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
@@ -21,7 +22,9 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
     private DBHelper dbHelper;
     private int serviceId;
-    private int userId = 1; // TODO: replace with logged-in user session
+    private static final String PREFS_NAME = "LuxeVistaPrefs";
+    private static final String KEY_USER_ID = "user_id";
+    private int userId;
 
     private double servicePriceVal = 0.0;
 
@@ -44,6 +47,17 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
         dbHelper = new DBHelper(this);
         serviceId = getIntent().getIntExtra("service_id", -1);
+
+        SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+        userId = prefs.getInt(KEY_USER_ID, -1);
+
+        if (userId == -1) {
+            Toast.makeText(this, "Please log in first.", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         loadServiceDetails();
 

@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         // Navigation Section
         cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
         cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
-//        cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
+        cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
 //        cardOffers.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
 //        cardAttractions.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
 //        cardProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
