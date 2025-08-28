@@ -1,0 +1,55 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp"
+    android:backgroundTint="#004859">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/bookingTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Booking Title"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/bookingSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date here"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="4dp"/>
+
+        <TextView
+            android:id="@+id/bookingSubtitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time here"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/bookingSubtitle3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Status here"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

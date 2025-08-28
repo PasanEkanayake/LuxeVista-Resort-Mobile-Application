@@ -31,6 +31,13 @@ public class RoomsActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomsActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
         recyclerView = findViewById(R.id.recyclerViewRooms);
         filterSpinner = findViewById(R.id.spinnerFilter);
         sortSpinner = findViewById(R.id.spinnerSort);

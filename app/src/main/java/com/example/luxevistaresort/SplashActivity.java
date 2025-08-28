@@ -30,7 +30,6 @@ public class SplashActivity extends AppCompatActivity {
         });
 
         dbHelper = new DBHelper(this);
-        dbHelper.insertDummyData();
 
         new Handler().postDelayed(() -> {
             if (isLoggedIn()) {
@@ -38,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
                 startActivity(intent);
             } else {
                 Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
+                dbHelper.insertDummyData();
                 startActivity(intent);
             }
             finish();

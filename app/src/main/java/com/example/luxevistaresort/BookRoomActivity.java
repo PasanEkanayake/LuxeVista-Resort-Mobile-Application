@@ -31,6 +31,13 @@ public class BookRoomActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(BookRoomActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
         startDatePicker = findViewById(R.id.startDatePicker);
         endDatePicker = findViewById(R.id.endDatePicker);
         edtGuests = findViewById(R.id.edtGuests);
@@ -72,7 +79,7 @@ public class BookRoomActivity extends AppCompatActivity {
         long bookingId = dbHelper.bookRoom(userId, roomId, startDate, endDate, totalPrice);
         if (bookingId > 0) {
             Toast.makeText(this, "Booking Confirmed!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(BookRoomActivity.this, MainActivity.class);
+            Intent intent = new Intent(BookRoomActivity.this, RoomsActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();

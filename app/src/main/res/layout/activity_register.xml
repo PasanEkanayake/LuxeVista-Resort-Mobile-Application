@@ -91,7 +91,7 @@
 
         <Button
             android:id="@+id/btnRegister"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
@@ -103,7 +103,7 @@
 
         <Button
             android:id="@+id/btnBackToLogin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"

@@ -25,6 +25,13 @@ public class RoomDetailsActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(RoomDetailsActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
         txtName = findViewById(R.id.txtRoomName);
         txtDescription = findViewById(R.id.txtRoomDescription);
         txtPrice = findViewById(R.id.txtRoomPrice);

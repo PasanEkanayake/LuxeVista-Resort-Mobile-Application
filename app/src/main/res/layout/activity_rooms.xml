@@ -29,6 +29,7 @@
                 android:contentDescription="@string/app_name" />
 
             <ImageView
+                android:id="@+id/btnHome"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"

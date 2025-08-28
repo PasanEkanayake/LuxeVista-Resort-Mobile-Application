@@ -220,6 +220,26 @@ public class DBHelper extends SQLiteOpenHelper {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
     }
 
+    public Cursor getRoomBookingsByUserDetailed(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(
+                "SELECT rb.*, r.name AS room_name, r.room_type " +
+                        "FROM room_bookings rb " +
+                        "JOIN rooms r ON rb.room_id = r.id " +
+                        "WHERE rb.user_id = ? ORDER BY rb.start_date DESC",
+                new String[]{String.valueOf(userId)});
+    }
+
+    public Cursor getServiceBookingsByUserDetailed(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(
+                "SELECT sb.*, s.name AS service_name " +
+                        "FROM service_bookings sb " +
+                        "JOIN services s ON sb.service_id = s.id " +
+                        "WHERE sb.user_id = ? ORDER BY sb.booking_date DESC",
+                new String[]{String.valueOf(userId)});
+    }
+
     public void insertDummyData() {
         insertDummyRooms();
         insertDummyServices();

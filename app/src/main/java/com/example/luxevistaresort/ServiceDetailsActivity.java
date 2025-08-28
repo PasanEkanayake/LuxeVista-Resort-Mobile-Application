@@ -36,6 +36,13 @@ public class ServiceDetailsActivity extends AppCompatActivity {
         ImageView btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(v -> finish());
 
+        ImageView btnHome = findViewById(R.id.btnHome);
+        btnHome.setOnClickListener(v -> {
+            Intent intent = new Intent(ServiceDetailsActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        });
+
         serviceName = findViewById(R.id.serviceName);
         serviceDesc = findViewById(R.id.serviceDesc);
         servicePrice = findViewById(R.id.servicePrice);
@@ -98,7 +105,7 @@ public class ServiceDetailsActivity extends AppCompatActivity {
 
         if (result > 0) {
             Toast.makeText(this, "Service reserved successfully!", Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(ServiceDetailsActivity.this, MainActivity.class);
+            Intent intent = new Intent(ServiceDetailsActivity.this, ServicesActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
             finish();
