@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    android:id="@+id/mainAttractions"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#CEFAD0"
@@ -14,17 +14,19 @@
         android:paddingTop="24dp"
         android:paddingBottom="24dp">
 
+        <!-- Header with Back and Logo -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
 
             <ImageView
                 android:id="@+id/btnBack"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginBottom="24dp"
                 android:src="@drawable/ic_backward"
                 android:contentDescription="@string/app_name" />
 
@@ -33,13 +35,12 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginBottom="24dp"
                 android:src="@drawable/img_logo_1"
                 android:contentDescription="@string/app_name" />
         </LinearLayout>
 
         <TextView
-            android:text="Sleep in a Comfy Bed"
+            android:text="Attractions You Can Enjoy"
             android:textSize="26sp"
             android:fontFamily="@font/poppins_semibold"
             android:textColor="#198450"
@@ -48,46 +49,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- Filter & Sort -->
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:weightSum="2"
-            android:layout_marginStart="50dp"
-            android:layout_marginEnd="50dp"
-            android:layout_marginBottom="16dp">
-
-            <Spinner
-                android:id="@+id/spinnerFilter"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:background="#198450"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp" />
-
-            <Spinner
-                android:id="@+id/spinnerSort"
-                android:layout_weight="1"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:background="#198450"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp" />
-        </LinearLayout>
-
-        <!-- RecyclerView for Rooms -->
+        <!-- RecyclerView for Attractions -->
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewRooms"
+            android:id="@+id/recyclerAttractions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clipToPadding="false"
             android:paddingStart="24dp"
             android:paddingEnd="24dp"
-            android:paddingBottom="24dp"
-            android:clipToPadding="false" />
+            android:paddingBottom="24dp" />
+
+        <!-- Empty state TextView -->
+        <TextView
+            android:id="@+id/emptyAttractions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No attractions available."
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="#333333"
+            android:textSize="16pt"
+            android:paddingTop="24dp" />
 
     </LinearLayout>
 </ScrollView>
+

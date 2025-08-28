@@ -34,6 +34,16 @@
             android:contentDescription="@string/app_name" />
     </LinearLayout>
 
+    <TextView
+        android:text="Bookings You Made"
+        android:textSize="26sp"
+        android:fontFamily="@font/poppins_semibold"
+        android:textColor="#198450"
+        android:layout_gravity="center"
+        android:layout_marginBottom="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <!-- Filter Spinners -->
     <LinearLayout
         android:orientation="horizontal"

@@ -43,8 +43,9 @@
             android:id="@+id/serviceName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:text="Service Name"
-            android:textSize="24sp"
+            android:textSize="26sp"
             android:fontFamily="@font/poppins_semibold"
             android:textColor="#198450"
             android:layout_marginBottom="8dp"/>
