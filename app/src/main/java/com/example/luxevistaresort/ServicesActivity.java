@@ -53,7 +53,6 @@ public class ServicesActivity extends AppCompatActivity {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
                 String images = cursor.getString(cursor.getColumnIndexOrThrow("images"));
 
-                // Create CardView
                 CardView card = new CardView(this);
                 LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
@@ -64,14 +63,12 @@ public class ServicesActivity extends AppCompatActivity {
                 card.setRadius(dpToPx(16));
                 card.setCardElevation(dpToPx(4));
 
-                // FrameLayout to match XML
                 FrameLayout frameLayout = new FrameLayout(this);
                 frameLayout.setLayoutParams(new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
                         FrameLayout.LayoutParams.MATCH_PARENT
                 ));
 
-                // Background ImageView
                 ImageView imageView = new ImageView(this);
                 FrameLayout.LayoutParams imgParams = new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
@@ -81,7 +78,6 @@ public class ServicesActivity extends AppCompatActivity {
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageResource(getImageResource(images));
 
-                // Semi-transparent overlay
                 LinearLayout overlay = new LinearLayout(this);
                 FrameLayout.LayoutParams overlayParams = new FrameLayout.LayoutParams(
                         FrameLayout.LayoutParams.MATCH_PARENT,
@@ -93,7 +89,6 @@ public class ServicesActivity extends AppCompatActivity {
                 overlay.setGravity(android.view.Gravity.CENTER_VERTICAL);
                 overlay.setBackgroundColor(0x88000000);
 
-                // Service name only
                 TextView tvName = new TextView(this);
                 tvName.setText(name);
                 tvName.setTextSize(48f);
@@ -102,11 +97,9 @@ public class ServicesActivity extends AppCompatActivity {
 
                 overlay.addView(tvName);
 
-                // Add views to frameLayout
                 frameLayout.addView(imageView);
                 frameLayout.addView(overlay);
 
-                // Add frameLayout to card
                 card.addView(frameLayout);
 
                 card.setOnClickListener(v -> {

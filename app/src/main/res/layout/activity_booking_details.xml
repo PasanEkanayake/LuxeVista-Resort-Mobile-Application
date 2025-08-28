@@ -40,7 +40,6 @@
                 android:contentDescription="@string/app_name" />
         </LinearLayout>
 
-        <!-- Booking Details Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -69,7 +68,6 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Cancel Booking Button -->
         <Button
             android:id="@+id/cancelBtn"
             android:layout_width="wrap_content"
@@ -85,7 +83,6 @@
             android:textAllCaps="false"
             android:letterSpacing="0.05" />
 
-        <!-- Set Reminder Button -->
         <Button
             android:id="@+id/reminderBtn"
             android:layout_width="wrap_content"

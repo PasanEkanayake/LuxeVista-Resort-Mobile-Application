@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // If not logged in, Go to Login
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         int userId = prefs.getInt(KEY_USER_ID, -1);
         if (userId == -1) {
@@ -50,14 +49,12 @@ public class MainActivity extends AppCompatActivity {
         cardProfile = findViewById(R.id.cardProfile);
         cardLogout = findViewById(R.id.cardLogout);
 
-        // Greet the user
         String userName = getUserFullName(userId);
         tvWelcome.setText(userName == null ? "Welcome to LuxeVista" : "Welcome, " + userName);
 
         tvPromoCount.setText(String.valueOf(getActivePromotionsCount()));
         tvAttractionCount.setText(String.valueOf(getAttractionsCount()));
 
-        // Navigation Section
         cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
         cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
         cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));

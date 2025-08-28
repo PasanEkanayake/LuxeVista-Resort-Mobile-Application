@@ -27,19 +27,18 @@ public class BookingsActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private ArrayList<BookingItem> bookingList;
     private ArrayList<Integer> bookingIds;
-    private ArrayList<String> bookingTypes; // "room" or "service"
+    private ArrayList<String> bookingTypes;
     private static final String PREFS_NAME = "LuxeVistaPrefs";
     private static final String KEY_USER_ID = "user_id";
     private int userId;
 
-    private BookingAdapter adapter; // custom card-style adapter
+    private BookingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
-        // Initialize views
         btnBack = findViewById(R.id.btnBack);
         btnHome = findViewById(R.id.btnHome);
         bookingsFilter = findViewById(R.id.bookingsFilter);
@@ -53,7 +52,6 @@ public class BookingsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // Get logged-in user ID
         SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
         userId = prefs.getInt(KEY_USER_ID, -1);
         if (userId == -1) {
@@ -68,11 +66,9 @@ public class BookingsActivity extends AppCompatActivity {
         bookingIds = new ArrayList<>();
         bookingTypes = new ArrayList<>();
 
-        // Setup adapter for the ListView
         adapter = new BookingAdapter(this, bookingList);
         bookingsListView.setAdapter(adapter);
 
-        // Item click: open details
         bookingsListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent detailsIntent = new Intent(BookingsActivity.this, BookingDetailsActivity.class);
             detailsIntent.putExtra("BOOKING_ID", bookingIds.get(position));
@@ -80,7 +76,6 @@ public class BookingsActivity extends AppCompatActivity {
             startActivity(detailsIntent);
         });
 
-        // --- Bookings type spinner (All / Rooms / Services) ---
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.spinner_item,
@@ -88,24 +83,20 @@ public class BookingsActivity extends AppCompatActivity {
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bookingsFilter.setAdapter(filterAdapter);
 
-        // --- Status spinner (Confirmed / Cancelled) with Confirmed default ---
         ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.spinner_item,
                 new String[]{"Confirmed", "Cancelled"});
         statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         statusFilter.setAdapter(statusAdapter);
-        statusFilter.setSelection(0); // default = Confirmed
+        statusFilter.setSelection(0);
 
-        // Helper that maps spinner values and applies filters
         Runnable applyFilters = () -> {
-            // Map bookingsFilter value to "all"/"room"/"service"
             String typeSelected = bookingsFilter.getSelectedItem().toString();
             String mappedType = "all";
             if ("Rooms".equalsIgnoreCase(typeSelected) || "Room".equalsIgnoreCase(typeSelected)) mappedType = "room";
             else if ("Services".equalsIgnoreCase(typeSelected) || "Service".equalsIgnoreCase(typeSelected)) mappedType = "service";
 
-            // Map statusFilter value to "CONFIRMED"/"CANCELLED"
             String statusSelected = statusFilter.getSelectedItem().toString();
             String mappedStatus = "CONFIRMED";
             if ("Cancelled".equalsIgnoreCase(statusSelected) || "CANCELLED".equalsIgnoreCase(statusSelected)) mappedStatus = "CANCELLED";
@@ -114,7 +105,6 @@ public class BookingsActivity extends AppCompatActivity {
             adapter.notifyDataSetChanged();
         };
 
-        // Spinner listeners call applyFilters when selection changes
         bookingsFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -139,16 +129,10 @@ public class BookingsActivity extends AppCompatActivity {
             }
         });
 
-        // Initial load: Confirmed default
         loadBookings("all", "CONFIRMED");
         adapter.notifyDataSetChanged();
     }
 
-    /**
-     * Load bookings from DB
-     * @param filter "all", "room", or "service"
-     * @param status "CONFIRMED" or "CANCELLED"
-     */
     private void loadBookings(String filter, String status) {
         bookingList.clear();
         bookingIds.clear();
@@ -156,7 +140,6 @@ public class BookingsActivity extends AppCompatActivity {
 
         Log.d(TAG, "Loading bookings: filter=" + filter + " status=" + status);
 
-        // Load room bookings
         if (filter.equals("all") || filter.equals("room")) {
             Cursor roomCursor = dbHelper.getRoomBookingsByUserDetailed(userId);
             if (roomCursor != null) {
@@ -186,7 +169,6 @@ public class BookingsActivity extends AppCompatActivity {
             }
         }
 
-        // Load service bookings
         if (filter.equals("all") || filter.equals("service")) {
             Cursor serviceCursor = dbHelper.getServiceBookingsByUserDetailed(userId);
             if (serviceCursor != null) {

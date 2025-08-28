@@ -24,6 +24,5 @@ public class Room {
     public String getType() { return type; }
     public String getDescription() { return description; }
     public double getPrice() { return price; }
-    public int getCapacity() { return capacity; }
     public String getImages() { return images; }
 }

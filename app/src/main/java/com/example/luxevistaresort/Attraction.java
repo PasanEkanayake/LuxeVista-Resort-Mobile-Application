@@ -6,7 +6,7 @@ public class Attraction {
     private String description;
     private String distance;
     private String contact;
-    private String images; // CSV
+    private String images;
 
     public Attraction(int id, String title, String description, String distance, String contact, String images) {
         this.id = id;

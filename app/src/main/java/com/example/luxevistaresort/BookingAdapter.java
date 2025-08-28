@@ -1,6 +1,5 @@
 package com.example.luxevistaresort;
 
-// BookingAdapter.java (updated)
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,6 @@ public class BookingAdapter extends BaseAdapter {
         vh.subtitle2.setText(booking.getTime().isEmpty() ? "" : booking.getTime());
         vh.subtitle3.setText("Status: " + booking.getStatus());
 
-        // Use colors from resources (white by default) and only change title color for cancelled
         int white = ContextCompat.getColor(context, android.R.color.white);
         vh.title.setTextColor(white);
         vh.subtitle.setTextColor(white);
@@ -58,7 +56,6 @@ public class BookingAdapter extends BaseAdapter {
         vh.subtitle3.setTextColor(white);
 
         if ("CANCELLED".equalsIgnoreCase(booking.getStatus())) {
-            // change subtitle3 or title color to a soft red -- keep readable
             vh.subtitle3.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_light));
         }
 

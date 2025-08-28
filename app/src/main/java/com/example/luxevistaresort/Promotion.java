@@ -7,7 +7,7 @@ public class Promotion {
     private String startDate;
     private String endDate;
     private int active;
-    private String images; // CSV string like "summer1.jpg,summer2.jpg"
+    private String images;
 
     public Promotion(int id, String title, String description, String startDate, String endDate, int active, String images) {
         this.id = id;

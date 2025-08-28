@@ -44,12 +44,8 @@ public class EditBookingActivity extends AppCompatActivity {
             Cursor c = dbHelper.getReadableDatabase().rawQuery(
                     "SELECT booking_date, booking_time FROM service_bookings WHERE id = ?",
                     new String[]{String.valueOf(bookingId)});
-            if (c.moveToFirst()) {
-                // Could parse and set date/time
-            }
             c.close();
         }
-        // Room editing could allow new dates if you want
     }
 
     private void saveBooking() {
@@ -69,7 +65,6 @@ public class EditBookingActivity extends AppCompatActivity {
             dbHelper.getWritableDatabase().update("service_bookings", cv, "id = ?", new String[]{String.valueOf(bookingId)});
         } else {
             cv.put("start_date", newDate);
-            // Could add end_date picker too
             dbHelper.getWritableDatabase().update("room_bookings", cv, "id = ?", new String[]{String.valueOf(bookingId)});
         }
 

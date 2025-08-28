@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -129,7 +128,6 @@ public class BookingDetailsActivity extends AppCompatActivity {
     }
 
     private void setReminder() {
-        // For simplicity, set reminder 1 hour before the booking (service or room start)
         Calendar cal = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
 
@@ -138,7 +136,7 @@ public class BookingDetailsActivity extends AppCompatActivity {
                 Cursor c = dbHelper.getReadableDatabase().rawQuery(
                         "SELECT start_date FROM room_bookings WHERE id = ?", new String[]{String.valueOf(bookingId)});
                 if (c.moveToFirst()) {
-                    String start = c.getString(c.getColumnIndexOrThrow("start_date")) + " 12:00"; // assume noon check-in
+                    String start = c.getString(c.getColumnIndexOrThrow("start_date")) + " 12:00";
                     cal.setTime(sdf.parse(start));
                     cal.add(Calendar.HOUR, -1);
                 }

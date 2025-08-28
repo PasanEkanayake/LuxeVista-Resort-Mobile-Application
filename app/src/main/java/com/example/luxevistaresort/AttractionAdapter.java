@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -46,7 +45,6 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.At
         else holder.image.setImageResource(R.drawable.ic_image_placeholder);
 
         holder.card.setOnClickListener(v -> {
-            // show details dialog
             String message = a.getDescription() + "\n\nDistance: " + (a.getDistance() == null ? "-" : a.getDistance())
                     + "\nContact: " + (a.getContact() == null ? "-" : a.getContact());
             new AlertDialog.Builder(context)
@@ -77,7 +75,6 @@ public class AttractionAdapter extends RecyclerView.Adapter<AttractionAdapter.At
         }
     }
 
-    // Helper: parse CSV and return drawable resource id for first image name (strip extension)
     private int getDrawableIdFromCsv(String csv) {
         if (csv == null || csv.trim().isEmpty()) return 0;
         String[] parts = csv.split(",");

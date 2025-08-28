@@ -86,14 +86,12 @@ public class RoomDetailsActivity extends AppCompatActivity {
             txtDescription.setText(description);
             txtPrice.setText("Rs. " + price + " per night");
 
-            // --- image loading logic ---
             String firstImage = null;
             if (images != null && !images.trim().isEmpty()) {
                 firstImage = images.split(",")[0].trim();
             }
 
             if (firstImage != null && !firstImage.isEmpty()) {
-                // 1) try drawable resource (strip extension if present)
                 String resourceName = firstImage.contains(".") ? firstImage.substring(0, firstImage.lastIndexOf('.')) : firstImage;
                 int resId = getResources().getIdentifier(resourceName, "drawable", getPackageName());
 
@@ -105,7 +103,6 @@ public class RoomDetailsActivity extends AppCompatActivity {
                             .listener(glideListener(firstImage))
                             .into(imageView);
                 }
-                // 2) else if it's an http/https url
                 else if (firstImage.startsWith("http://") || firstImage.startsWith("https://")) {
                     Log.d(TAG, "Loading remote URL: " + firstImage);
                     Glide.with(this)
@@ -114,7 +111,6 @@ public class RoomDetailsActivity extends AppCompatActivity {
                             .listener(glideListener(firstImage))
                             .into(imageView);
                 }
-                // 3) else try assets folder (file:///android_asset/...)
                 else {
                     String assetPath = "file:///android_asset/" + firstImage;
                     Log.d(TAG, "Attempting asset load: " + assetPath);
@@ -124,7 +120,6 @@ public class RoomDetailsActivity extends AppCompatActivity {
                             .listener(glideListener(firstImage))
                             .into(imageView);
 
-                    // 4) also attempt internal files dir fallback if exists
                     File f = new File(getFilesDir(), firstImage);
                     if (f.exists()) {
                         Log.d(TAG, "Found file in internal storage: " + f.getAbsolutePath());
@@ -136,7 +131,6 @@ public class RoomDetailsActivity extends AppCompatActivity {
                     }
                 }
             } else {
-                // no image => placeholder
                 imageView.setImageResource(R.drawable.ic_image_placeholder);
             }
         } else {
@@ -151,7 +145,6 @@ public class RoomDetailsActivity extends AppCompatActivity {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 Log.e(TAG, "Glide load failed for: " + model + " (original: " + modelId + ")", e);
-                // return false so placeholder is set by Glide
                 return false;
             }
 

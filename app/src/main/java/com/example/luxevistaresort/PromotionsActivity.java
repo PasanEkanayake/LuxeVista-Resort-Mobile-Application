@@ -50,7 +50,6 @@ public class PromotionsActivity extends AppCompatActivity {
     private void loadPromotions() {
         promotions.clear();
 
-        // Show only active promotions (active = 1)
         Cursor c = dbHelper.getReadableDatabase().rawQuery("SELECT * FROM promotions WHERE active = 1 ORDER BY start_date DESC", null);
         if (c != null && c.moveToFirst()) {
             do {

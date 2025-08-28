@@ -90,7 +90,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "description TEXT," +
                 "distance TEXT," +
                 "contact TEXT," +
-                "images TEXT)");  // Added images column
+                "images TEXT)");
 
         // PROMOTIONS
         db.execSQL("CREATE TABLE promotions (" +
@@ -100,7 +100,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "start_date TEXT," +
                 "end_date TEXT," +
                 "active INTEGER DEFAULT 1," +
-                "images TEXT)");  // Added images column
+                "images TEXT)");
     }
 
     @Override
@@ -115,7 +115,6 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // ----------------- USER FUNCTIONS -----------------
     public long registerUser(String fullName, String email, String passwordHash, String phone) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -141,7 +140,6 @@ public class DBHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // ----------------- ROOM FUNCTIONS -----------------
     public Cursor getAllRooms() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM rooms WHERE available = 1", null);
@@ -195,7 +193,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)});
     }
 
-    // ----------------- SERVICE FUNCTIONS -----------------
     public Cursor getAllServices() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM services", null);
@@ -241,7 +238,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)});
     }
 
-    // ----------------- ATTRACTIONS & PROMOTIONS -----------------
     public long addAttraction(String title, String description, String distance, String contact, String images) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -265,7 +261,20 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.insert("promotions", null, cv);
     }
 
-    // ----------------- DUMMY DATA -----------------
+    public Cursor getUserById(int id) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("SELECT * FROM users WHERE id = ?", new String[]{String.valueOf(id)});
+    }
+
+    public int updateUser(int id, String fullName, String phone, String preferences) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("full_name", fullName);
+        cv.put("phone", phone);
+        cv.put("preferences", preferences);
+        return db.update("users", cv, "id = ?", new String[]{String.valueOf(id)});
+    }
+
     public void insertDummyData() {
         insertDummyRooms();
         insertDummyServices();
@@ -452,7 +461,6 @@ public class DBHelper extends SQLiteOpenHelper {
         cv.clear();
     }
 
-    // ----------------- HELPER -----------------
     private String currentTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
     }

@@ -47,7 +47,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         if (images != null && !images.trim().isEmpty()) {
             String first = images.split(",")[0].trim();
 
-            // remove extension if present
             String name = first.contains(".") ? first.substring(0, first.lastIndexOf('.')) : first;
 
             int resId = holder.itemView.getContext()
@@ -60,7 +59,6 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
                         .placeholder(R.drawable.ic_image_placeholder)
                         .into(holder.imgRoom);
             } else {
-                // resource not found — fallback
                 holder.imgRoom.setImageResource(R.drawable.ic_image_placeholder);
                 Log.d("RoomAdapter", "Drawable not found for name: " + name);
             }

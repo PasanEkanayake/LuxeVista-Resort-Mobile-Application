@@ -48,7 +48,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <!-- Filter & Sort -->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -79,7 +78,6 @@
                 android:paddingEnd="10dp" />
         </LinearLayout>
 
-        <!-- RecyclerView for Rooms -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewRooms"
             android:layout_width="match_parent"

@@ -68,7 +68,6 @@ public class LoginActivity extends AppCompatActivity {
 
         progressBar.setVisibility(View.VISIBLE);
 
-        // Hash the password before validation
         String passwordHash = HashUtils.sha256(password);
 
         Cursor cursor = null;
@@ -89,7 +88,6 @@ public class LoginActivity extends AppCompatActivity {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
-                    return;
                 } else {
                     Toast.makeText(this, "Incorrect password", Toast.LENGTH_SHORT).show();
                 }

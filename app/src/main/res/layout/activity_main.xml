@@ -370,7 +370,7 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:padding="8dp"
-                    android:background="#004859">
+                    android:background="#B23A3A">
 
                     <ImageView
                         android:layout_width="32dp"

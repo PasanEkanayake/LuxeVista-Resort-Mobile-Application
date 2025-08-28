@@ -55,7 +55,6 @@ public class RoomsActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(adapter);
 
-        // Filter
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item,
                 new String[]{"Room Type", "All", "Suite", "Deluxe", "Standard"});
@@ -69,7 +68,6 @@ public class RoomsActivity extends AppCompatActivity {
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Sort
         ArrayAdapter<String> sortAdapter = new ArrayAdapter<>(this,
                 R.layout.spinner_item,
                 new String[]{"Price", "Default", "Low->High", "High->Low"});
@@ -104,7 +102,6 @@ public class RoomsActivity extends AppCompatActivity {
         }
         cursor.close();
 
-        // Apply sorting
         if (sortOrder != null) {
             if (sortOrder.equals("Low->High")) {
                 roomList.sort((r1, r2) -> Double.compare(r1.getPrice(), r2.getPrice()));

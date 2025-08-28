@@ -36,7 +36,6 @@
                 android:contentDescription="@string/app_name" />
         </LinearLayout>
 
-        <!-- Room Image -->
         <ImageView
             android:id="@+id/imgRoom"
             android:layout_width="match_parent"
@@ -45,7 +44,6 @@
             android:scaleType="centerCrop"
             android:src="@drawable/ic_image_placeholder" />
 
-        <!-- Room Name -->
         <TextView
             android:id="@+id/txtRoomName"
             android:text="Room Name"
@@ -56,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <!-- Room Price -->
         <TextView
             android:id="@+id/txtRoomPrice"
             android:text="Rs. 1000 / night"
@@ -67,7 +64,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <!-- Room Description -->
         <TextView
             android:id="@+id/txtRoomDescription"
             android:text="Room description here..."
@@ -78,7 +74,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Book Room Button -->
         <Button
             android:id="@+id/btnBookRoom"
             android:text="Book This Room"
