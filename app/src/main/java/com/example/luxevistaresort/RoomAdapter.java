@@ -1,5 +1,6 @@
 package com.example.luxevistaresort;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,18 +43,34 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
         holder.txtType.setText(room.getType());
         holder.txtPrice.setText("Rs. " + room.getPrice() + " / night");
 
-        // Load image with Glide (if available)
-        if (room.getImages() != null && !room.getImages().isEmpty()) {
-            Glide.with(holder.itemView.getContext())
-                    .load(room.getImages().split(",")[0]) // first image
-                    .placeholder(R.drawable.ic_image_placeholder)
-                    .into(holder.imgRoom);
+        String images = room.getImages();
+        if (images != null && !images.trim().isEmpty()) {
+            String first = images.split(",")[0].trim();
+
+            // remove extension if present
+            String name = first.contains(".") ? first.substring(0, first.lastIndexOf('.')) : first;
+
+            int resId = holder.itemView.getContext()
+                    .getResources()
+                    .getIdentifier(name, "drawable", holder.itemView.getContext().getPackageName());
+
+            if (resId != 0) {
+                Glide.with(holder.itemView.getContext())
+                        .load(resId)
+                        .placeholder(R.drawable.ic_image_placeholder)
+                        .into(holder.imgRoom);
+            } else {
+                // resource not found — fallback
+                holder.imgRoom.setImageResource(R.drawable.ic_image_placeholder);
+                Log.d("RoomAdapter", "Drawable not found for name: " + name);
+            }
         } else {
             holder.imgRoom.setImageResource(R.drawable.ic_image_placeholder);
         }
 
         holder.itemView.setOnClickListener(v -> listener.onRoomClick(room));
     }
+
 
     @Override
     public int getItemCount() {

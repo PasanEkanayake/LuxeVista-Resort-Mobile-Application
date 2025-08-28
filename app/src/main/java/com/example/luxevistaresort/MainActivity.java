@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
         cardPromotions.setOnClickListener(v -> startActivity(new Intent(this, PromotionsActivity.class)));
         cardAttractions.setOnClickListener(v -> startActivity(new Intent(this, AttractionsActivity.class)));
-//        cardProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
+        cardProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
 
         cardLogout.setOnClickListener(v -> {
             getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().remove(KEY_USER_ID).apply();
