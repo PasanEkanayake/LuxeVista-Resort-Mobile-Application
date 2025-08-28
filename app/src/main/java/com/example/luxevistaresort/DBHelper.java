@@ -89,7 +89,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "title TEXT," +
                 "description TEXT," +
                 "distance TEXT," +
-                "contact TEXT)");
+                "contact TEXT," +
+                "images TEXT)");  // Added images column
 
         // PROMOTIONS
         db.execSQL("CREATE TABLE promotions (" +
@@ -98,7 +99,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 "description TEXT," +
                 "start_date TEXT," +
                 "end_date TEXT," +
-                "active INTEGER DEFAULT 1)");
+                "active INTEGER DEFAULT 1," +
+                "images TEXT)");  // Added images column
     }
 
     @Override
@@ -113,6 +115,7 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    // ----------------- USER FUNCTIONS -----------------
     public long registerUser(String fullName, String email, String passwordHash, String phone) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues cv = new ContentValues();
@@ -138,6 +141,7 @@ public class DBHelper extends SQLiteOpenHelper {
         return exists;
     }
 
+    // ----------------- ROOM FUNCTIONS -----------------
     public Cursor getAllRooms() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM rooms WHERE available = 1", null);
@@ -181,6 +185,17 @@ public class DBHelper extends SQLiteOpenHelper {
         return db.update("room_bookings", cv, "id = ?", new String[]{String.valueOf(bookingId)});
     }
 
+    public Cursor getRoomBookingsByUserDetailed(int userId) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery(
+                "SELECT rb.*, r.name AS room_name, r.room_type " +
+                        "FROM room_bookings rb " +
+                        "JOIN rooms r ON rb.room_id = r.id " +
+                        "WHERE rb.user_id = ? ORDER BY rb.start_date DESC",
+                new String[]{String.valueOf(userId)});
+    }
+
+    // ----------------- SERVICE FUNCTIONS -----------------
     public Cursor getAllServices() {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery("SELECT * FROM services", null);
@@ -216,20 +231,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)});
     }
 
-    private String currentTime() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-    }
-
-    public Cursor getRoomBookingsByUserDetailed(int userId) {
-        SQLiteDatabase db = getReadableDatabase();
-        return db.rawQuery(
-                "SELECT rb.*, r.name AS room_name, r.room_type " +
-                        "FROM room_bookings rb " +
-                        "JOIN rooms r ON rb.room_id = r.id " +
-                        "WHERE rb.user_id = ? ORDER BY rb.start_date DESC",
-                new String[]{String.valueOf(userId)});
-    }
-
     public Cursor getServiceBookingsByUserDetailed(int userId) {
         SQLiteDatabase db = getReadableDatabase();
         return db.rawQuery(
@@ -240,6 +241,31 @@ public class DBHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(userId)});
     }
 
+    // ----------------- ATTRACTIONS & PROMOTIONS -----------------
+    public long addAttraction(String title, String description, String distance, String contact, String images) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("title", title);
+        cv.put("description", description);
+        cv.put("distance", distance);
+        cv.put("contact", contact);
+        cv.put("images", images);
+        return db.insert("attractions", null, cv);
+    }
+
+    public long addPromotion(String title, String description, String startDate, String endDate, int active, String images) {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("title", title);
+        cv.put("description", description);
+        cv.put("start_date", startDate);
+        cv.put("end_date", endDate);
+        cv.put("active", active);
+        cv.put("images", images);
+        return db.insert("promotions", null, cv);
+    }
+
+    // ----------------- DUMMY DATA -----------------
     public void insertDummyData() {
         insertDummyRooms();
         insertDummyServices();
@@ -251,7 +277,6 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        // Room 1 - Suite
         cv.put("name", "Ocean View Suite");
         cv.put("room_type", "Suite");
         cv.put("description", "Spacious suite with panoramic ocean views and luxury amenities.");
@@ -262,7 +287,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("rooms", null, cv);
         cv.clear();
 
-        // Room 2 - Deluxe
         cv.put("name", "Deluxe King Room");
         cv.put("room_type", "Deluxe");
         cv.put("description", "Elegant room with king-sized bed and modern facilities.");
@@ -273,7 +297,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("rooms", null, cv);
         cv.clear();
 
-        // Room 3 - Standard
         cv.put("name", "Standard Twin Room");
         cv.put("room_type", "Standard");
         cv.put("description", "Comfortable room with twin beds and essential amenities.");
@@ -284,7 +307,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("rooms", null, cv);
         cv.clear();
 
-        // Room 4 - Suite
         cv.put("name", "Presidential Suite");
         cv.put("room_type", "Suite");
         cv.put("description", "Luxurious suite with private terrace, Jacuzzi, and exclusive services.");
@@ -295,7 +317,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("rooms", null, cv);
         cv.clear();
 
-        // Room 5 - Deluxe
         cv.put("name", "Deluxe Ocean Room");
         cv.put("room_type", "Deluxe");
         cv.put("description", "Modern deluxe room with stunning sea views and premium comfort.");
@@ -306,7 +327,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("rooms", null, cv);
         cv.clear();
 
-        // Room 6 - Standard
         cv.put("name", "Standard Queen Room");
         cv.put("room_type", "Standard");
         cv.put("description", "Cozy room with queen bed, ideal for couples or solo travelers.");
@@ -320,10 +340,8 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public void insertDummyServices() {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues cv = new ContentValues();
 
-        // SPA
         cv.put("name", "Spa");
         cv.put("description", "Relaxing spa experience with massages and aromatherapy.");
         cv.put("duration_minutes", 60);
@@ -332,7 +350,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("services", null, cv);
         cv.clear();
 
-        // Dining
         cv.put("name", "Dining");
         cv.put("description", "Exclusive fine dining experience with gourmet meals.");
         cv.put("duration_minutes", 90);
@@ -341,7 +358,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("services", null, cv);
         cv.clear();
 
-        // Cabana
         cv.put("name", "Cabana");
         cv.put("description", "Private cabana rental with ocean view and amenities.");
         cv.put("duration_minutes", 180);
@@ -350,7 +366,6 @@ public class DBHelper extends SQLiteOpenHelper {
         db.insert("services", null, cv);
         cv.clear();
 
-        // Tours
         cv.put("name", "Tours");
         cv.put("description", "Guided tours to explore the surrounding attractions.");
         cv.put("duration_minutes", 120);
@@ -364,43 +379,43 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        // Attraction 1
         cv.put("title", "Sunset Beach");
         cv.put("description", "Beautiful beach perfect for watching sunsets and relaxing.");
         cv.put("distance", "2 km from resort");
         cv.put("contact", "+94112223344");
+        cv.put("images", "sunset1.jpg,sunset2.jpg");
         db.insert("attractions", null, cv);
         cv.clear();
 
-        // Attraction 2
         cv.put("title", "Mountain Trail");
         cv.put("description", "Scenic hiking trail with breathtaking mountain views.");
         cv.put("distance", "5 km from resort");
         cv.put("contact", "+94112225566");
+        cv.put("images", "mountain1.jpg,mountain2.jpg");
         db.insert("attractions", null, cv);
         cv.clear();
 
-        // Attraction 3
         cv.put("title", "City Museum");
         cv.put("description", "Explore local history and cultural artifacts at the city museum.");
         cv.put("distance", "3 km from resort");
         cv.put("contact", "+94112227788");
+        cv.put("images", "museum1.jpg,museum2.jpg");
         db.insert("attractions", null, cv);
         cv.clear();
 
-        // Attraction 4
         cv.put("title", "Botanical Gardens");
         cv.put("description", "Stroll through beautiful gardens with exotic plants and flowers.");
         cv.put("distance", "4 km from resort");
         cv.put("contact", "+94112229900");
+        cv.put("images", "garden1.jpg,garden2.jpg");
         db.insert("attractions", null, cv);
         cv.clear();
 
-        // Attraction 5
         cv.put("title", "Adventure Park");
         cv.put("description", "Fun-filled adventure park with ziplining and obstacle courses.");
         cv.put("distance", "6 km from resort");
         cv.put("contact", "+94112221122");
+        cv.put("images", "adventure1.jpg,adventure2.jpg");
         db.insert("attractions", null, cv);
         cv.clear();
     }
@@ -409,32 +424,36 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        // Promotion 1
         cv.put("title", "Summer Special");
-        cv.put("description", "Enjoy 20% off on all suite bookings this summer.");
+        cv.put("description", "Enjoy 40% off on all suite bookings this summer.");
         cv.put("start_date", "2025-06-01");
         cv.put("end_date", "2025-08-31");
         cv.put("active", 1);
+        cv.put("images", "summer1.jpg,summer2.jpg");
         db.insert("promotions", null, cv);
         cv.clear();
 
-        // Promotion 2
         cv.put("title", "Weekend Getaway");
         cv.put("description", "Book a deluxe room and get free spa access on weekends.");
         cv.put("start_date", "2025-01-01");
         cv.put("end_date", "2025-12-31");
         cv.put("active", 1);
+        cv.put("images", "weekend1.jpg,weekend2.jpg");
         db.insert("promotions", null, cv);
         cv.clear();
 
-        // Promotion 3
         cv.put("title", "Dining Delight");
         cv.put("description", "Complimentary dinner for two with any room booking over 2 nights.");
         cv.put("start_date", "2025-03-01");
         cv.put("end_date", "2025-05-31");
         cv.put("active", 1);
+        cv.put("images", "diningdelight1.jpg,diningdelight2.jpg");
         db.insert("promotions", null, cv);
         cv.clear();
     }
 
+    // ----------------- HELPER -----------------
+    private String currentTime() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+    }
 }

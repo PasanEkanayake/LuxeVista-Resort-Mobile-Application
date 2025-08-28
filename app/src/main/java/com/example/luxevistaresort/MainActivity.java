@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private TextView tvWelcome, tvPromoCount, tvAttractionCount;
 
-    private CardView cardRooms, cardServices, cardBookings, cardOffers, cardAttractions, cardProfile, cardLogout;
+    private CardView cardRooms, cardServices, cardBookings, cardPromotions, cardAttractions, cardProfile, cardLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         cardRooms = findViewById(R.id.cardRooms);
         cardServices = findViewById(R.id.cardServices);
         cardBookings = findViewById(R.id.cardBookings);
-        cardOffers = findViewById(R.id.cardOffers);
+        cardPromotions = findViewById(R.id.cardPromotions);
         cardAttractions = findViewById(R.id.cardAttractions);
         cardProfile = findViewById(R.id.cardProfile);
         cardLogout = findViewById(R.id.cardLogout);
@@ -61,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
         cardRooms.setOnClickListener(v -> startActivity(new Intent(this, RoomsActivity.class)));
         cardServices.setOnClickListener(v -> startActivity(new Intent(this, ServicesActivity.class)));
         cardBookings.setOnClickListener(v -> startActivity(new Intent(this, BookingsActivity.class)));
-//        cardOffers.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
-//        cardAttractions.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
+        cardPromotions.setOnClickListener(v -> startActivity(new Intent(this, PromotionsActivity.class)));
+        cardAttractions.setOnClickListener(v -> startActivity(new Intent(this, ExploreActivity.class)));
 //        cardProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
 
         cardLogout.setOnClickListener(v -> {

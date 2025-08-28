@@ -13,6 +13,9 @@
         android:theme="@style/Theme.LuxeVistaResort"
         tools:targetApi="31">
         <activity
+            android:name=".PromotionsActivity"
+            android:exported="false" />
+        <activity
             android:name=".EditBookingActivity"
             android:exported="false" />
         <activity

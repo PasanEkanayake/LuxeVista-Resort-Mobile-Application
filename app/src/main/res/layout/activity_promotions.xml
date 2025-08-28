@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/mainPromotions"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#CEFAD0"
+    android:fillViewport="true"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp">
+
+        <!-- Header with Back and Logo -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="24dp">
+
+            <ImageView
+                android:id="@+id/btnBack"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/ic_backward"
+                android:contentDescription="@string/app_name" />
+
+            <ImageView
+                android:id="@+id/btnHome"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/img_logo_1"
+                android:contentDescription="@string/app_name" />
+        </LinearLayout>
+
+        <!-- RecyclerView for Promotions -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerPromotions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:paddingStart="24dp"
+            android:paddingEnd="24dp"
+            android:paddingBottom="24dp" />
+
+        <!-- Empty state TextView -->
+        <TextView
+            android:id="@+id/emptyPromotions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No promotions available."
+            android:gravity="center"
+            android:visibility="gone"
+            android:textColor="#333333"
+            android:textSize="16pt"
+            android:paddingTop="24dp" />
+
+    </LinearLayout>
+</ScrollView>
