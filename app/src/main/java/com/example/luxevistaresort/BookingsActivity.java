@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -16,9 +19,11 @@ import java.util.ArrayList;
 
 public class BookingsActivity extends AppCompatActivity {
 
+    private static final String TAG = "BookingsActivity";
+
     private ListView bookingsListView;
-    private Spinner bookingsFilter;
-    private ImageView btnBack;
+    private Spinner bookingsFilter, statusFilter;
+    private ImageView btnBack, btnHome;
     private DBHelper dbHelper;
     private ArrayList<BookingItem> bookingList;
     private ArrayList<Integer> bookingIds;
@@ -27,17 +32,21 @@ public class BookingsActivity extends AppCompatActivity {
     private static final String KEY_USER_ID = "user_id";
     private int userId;
 
-    private BookingAdapter adapter; // custom adapter for card-style items
+    private BookingAdapter adapter; // custom card-style adapter
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookings);
 
-        ImageView btnBack = findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(v -> finish());
+        // Initialize views
+        btnBack = findViewById(R.id.btnBack);
+        btnHome = findViewById(R.id.btnHome);
+        bookingsFilter = findViewById(R.id.bookingsFilter);
+        statusFilter = findViewById(R.id.statusFilter);
+        bookingsListView = findViewById(R.id.bookingsListView);
 
-        ImageView btnHome = findViewById(R.id.btnHome);
+        btnBack.setOnClickListener(v -> finish());
         btnHome.setOnClickListener(v -> {
             Intent intent = new Intent(BookingsActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -54,24 +63,16 @@ public class BookingsActivity extends AppCompatActivity {
             return;
         }
 
-        // Initialize views
-        btnBack = findViewById(R.id.btnBack);
-        bookingsFilter = findViewById(R.id.bookingsFilter);
-        bookingsListView = findViewById(R.id.bookingsListView);
-
         dbHelper = new DBHelper(this);
         bookingList = new ArrayList<>();
         bookingIds = new ArrayList<>();
         bookingTypes = new ArrayList<>();
 
-        // Load all bookings initially
-        loadBookings("all");
-
-        // Set custom adapter
+        // Setup adapter for the ListView
         adapter = new BookingAdapter(this, bookingList);
         bookingsListView.setAdapter(adapter);
 
-        // Handle item click
+        // Item click: open details
         bookingsListView.setOnItemClickListener((parent, view, position, id) -> {
             Intent detailsIntent = new Intent(BookingsActivity.this, BookingDetailsActivity.class);
             detailsIntent.putExtra("BOOKING_ID", bookingIds.get(position));
@@ -79,10 +80,7 @@ public class BookingsActivity extends AppCompatActivity {
             startActivity(detailsIntent);
         });
 
-        // Back button click
-        btnBack.setOnClickListener(v -> finish());
-
-        // Setup filter spinner
+        // --- Bookings type spinner (All / Rooms / Services) ---
         ArrayAdapter<String> filterAdapter = new ArrayAdapter<>(
                 this,
                 R.layout.spinner_item,
@@ -90,90 +88,133 @@ public class BookingsActivity extends AppCompatActivity {
         filterAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         bookingsFilter.setAdapter(filterAdapter);
 
-        bookingsFilter.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+        // --- Status spinner (Confirmed / Cancelled) with Confirmed default ---
+        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(
+                this,
+                R.layout.spinner_item,
+                new String[]{"Confirmed", "Cancelled"});
+        statusAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        statusFilter.setAdapter(statusAdapter);
+        statusFilter.setSelection(0); // default = Confirmed
+
+        // Helper that maps spinner values and applies filters
+        Runnable applyFilters = () -> {
+            // Map bookingsFilter value to "all"/"room"/"service"
+            String typeSelected = bookingsFilter.getSelectedItem().toString();
+            String mappedType = "all";
+            if ("Rooms".equalsIgnoreCase(typeSelected) || "Room".equalsIgnoreCase(typeSelected)) mappedType = "room";
+            else if ("Services".equalsIgnoreCase(typeSelected) || "Service".equalsIgnoreCase(typeSelected)) mappedType = "service";
+
+            // Map statusFilter value to "CONFIRMED"/"CANCELLED"
+            String statusSelected = statusFilter.getSelectedItem().toString();
+            String mappedStatus = "CONFIRMED";
+            if ("Cancelled".equalsIgnoreCase(statusSelected) || "CANCELLED".equalsIgnoreCase(statusSelected)) mappedStatus = "CANCELLED";
+
+            loadBookings(mappedType, mappedStatus);
+            adapter.notifyDataSetChanged();
+        };
+
+        // Spinner listeners call applyFilters when selection changes
+        bookingsFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(android.widget.AdapterView<?> parent, android.view.View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-                switch (selected) {
-                    case "Rooms":
-                        loadBookings("room");
-                        break;
-                    case "Services":
-                        loadBookings("service");
-                        break;
-                    default:
-                        loadBookings("all");
-                        break;
-                }
-                adapter.notifyDataSetChanged();
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                applyFilters.run();
             }
 
             @Override
-            public void onNothingSelected(android.widget.AdapterView<?> parent) {
-                loadBookings("all");
-                adapter.notifyDataSetChanged();
+            public void onNothingSelected(AdapterView<?> parent) {
+                applyFilters.run();
             }
         });
+
+        statusFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                applyFilters.run();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                applyFilters.run();
+            }
+        });
+
+        // Initial load: Confirmed default
+        loadBookings("all", "CONFIRMED");
+        adapter.notifyDataSetChanged();
     }
 
-    private void loadBookings(String filter) {
+    /**
+     * Load bookings from DB
+     * @param filter "all", "room", or "service"
+     * @param status "CONFIRMED" or "CANCELLED"
+     */
+    private void loadBookings(String filter, String status) {
         bookingList.clear();
         bookingIds.clear();
         bookingTypes.clear();
 
+        Log.d(TAG, "Loading bookings: filter=" + filter + " status=" + status);
+
         // Load room bookings
         if (filter.equals("all") || filter.equals("room")) {
             Cursor roomCursor = dbHelper.getRoomBookingsByUserDetailed(userId);
-            if (roomCursor.moveToFirst()) {
-                do {
-                    int id = roomCursor.getInt(roomCursor.getColumnIndexOrThrow("id"));
-                    String roomName = roomCursor.getString(roomCursor.getColumnIndexOrThrow("room_name"));
-                    String roomType = roomCursor.getString(roomCursor.getColumnIndexOrThrow("room_type"));
-                    String startDate = roomCursor.getString(roomCursor.getColumnIndexOrThrow("start_date"));
-                    String endDate = roomCursor.getString(roomCursor.getColumnIndexOrThrow("end_date"));
-                    String status = roomCursor.getString(roomCursor.getColumnIndexOrThrow("status"));
+            if (roomCursor != null) {
+                if (roomCursor.moveToFirst()) {
+                    do {
+                        String bookingStatus = roomCursor.getString(roomCursor.getColumnIndexOrThrow("status"));
+                        if (!bookingStatus.equalsIgnoreCase(status)) continue;
 
-                    bookingIds.add(id);
-                    bookingTypes.add("room");
+                        int id = roomCursor.getInt(roomCursor.getColumnIndexOrThrow("id"));
+                        String roomName = roomCursor.getString(roomCursor.getColumnIndexOrThrow("room_name"));
+                        String roomType = roomCursor.getString(roomCursor.getColumnIndexOrThrow("room_type"));
+                        String startDate = roomCursor.getString(roomCursor.getColumnIndexOrThrow("start_date"));
+                        String endDate = roomCursor.getString(roomCursor.getColumnIndexOrThrow("end_date"));
 
-                    // Title: Room type + name
-                    // Date: Start date
-                    // Time: End date (optional)
-                    // Status: Status
-                    bookingList.add(new BookingItem(
-                            roomType + " - " + roomName,
-                            startDate,
-                            endDate,
-                            status
-                    ));
-                } while (roomCursor.moveToNext());
+                        bookingIds.add(id);
+                        bookingTypes.add("room");
+
+                        bookingList.add(new BookingItem(
+                                roomType + " - " + roomName,
+                                startDate,
+                                endDate,
+                                bookingStatus
+                        ));
+                    } while (roomCursor.moveToNext());
+                }
+                roomCursor.close();
             }
-            roomCursor.close();
         }
 
         // Load service bookings
         if (filter.equals("all") || filter.equals("service")) {
             Cursor serviceCursor = dbHelper.getServiceBookingsByUserDetailed(userId);
-            if (serviceCursor.moveToFirst()) {
-                do {
-                    int id = serviceCursor.getInt(serviceCursor.getColumnIndexOrThrow("id"));
-                    String serviceName = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("service_name"));
-                    String date = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("booking_date"));
-                    String time = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("booking_time"));
-                    String status = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("status"));
+            if (serviceCursor != null) {
+                if (serviceCursor.moveToFirst()) {
+                    do {
+                        String bookingStatus = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("status"));
+                        if (!bookingStatus.equalsIgnoreCase(status)) continue;
 
-                    bookingIds.add(id);
-                    bookingTypes.add("service");
+                        int id = serviceCursor.getInt(serviceCursor.getColumnIndexOrThrow("id"));
+                        String serviceName = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("service_name"));
+                        String date = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("booking_date"));
+                        String time = serviceCursor.getString(serviceCursor.getColumnIndexOrThrow("booking_time"));
 
-                    bookingList.add(new BookingItem(
-                            serviceName,
-                            date,
-                            time,
-                            status
-                    ));
-                } while (serviceCursor.moveToNext());
+                        bookingIds.add(id);
+                        bookingTypes.add("service");
+
+                        bookingList.add(new BookingItem(
+                                serviceName,
+                                date,
+                                time,
+                                bookingStatus
+                        ));
+                    } while (serviceCursor.moveToNext());
+                }
+                serviceCursor.close();
             }
-            serviceCursor.close();
         }
+
+        Log.d(TAG, "Loaded bookings count: " + bookingList.size());
     }
 }

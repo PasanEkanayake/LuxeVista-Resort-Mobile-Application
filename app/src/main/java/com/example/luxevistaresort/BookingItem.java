@@ -1,10 +1,10 @@
 package com.example.luxevistaresort;
 
 public class BookingItem {
-    public String title;
-    public String date;
-    public String time; // can be null
-    public String status;
+    private String title;
+    private String date;
+    private String time;
+    private String status;
 
     public BookingItem(String title, String date, String time, String status) {
         this.title = title;
@@ -12,4 +12,9 @@ public class BookingItem {
         this.time = time;
         this.status = status;
     }
+
+    public String getTitle() { return title; }
+    public String getDate() { return date; }
+    public String getTime() { return time; }
+    public String getStatus() { return status; }
 }
