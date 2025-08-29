@@ -33,6 +33,7 @@
             android:layout_marginBottom="10dp"
             android:padding="15dp"
             android:hint="@string/email"
+            android:textColor="@color/black"
             android:inputType="textEmailAddress"
             android:background="@color/white" />
 
@@ -45,6 +46,7 @@
             android:layout_marginBottom="50dp"
             android:padding="15dp"
             android:hint="@string/password"
+            android:textColor="@color/black"
             android:inputType="textPassword"
             android:background="@color/white" />
 
@@ -55,6 +57,7 @@
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:text="@string/login"
+            android:textColor="@color/white"
             android:fontFamily="@font/poppins_semibold"
             android:textSize="18sp"
             android:backgroundTint="#004859" />
@@ -67,6 +70,7 @@
             android:layout_marginEnd="50dp"
             android:layout_marginTop="12dp"
             android:text="@string/go_to_register_now"
+            android:textColor="@color/white"
             android:fontFamily="@font/poppins_semibold"
             android:textSize="18sp"
             android:backgroundTint="#198450" />
