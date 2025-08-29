@@ -63,8 +63,11 @@
             android:id="@+id/startDatePicker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:calendarViewShown="true"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:headerBackground="#198450"/>
 
         <TextView
             android:text="Checkout Date:"
@@ -80,7 +83,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:calendarViewShown="true"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:headerBackground="#198450"/>
 
         <EditText
             android:id="@+id/edtGuests"
@@ -88,6 +93,7 @@
             android:inputType="number"
             android:layout_marginTop="12dp"
             android:background="@color/white"
+            android:textColor="@color/black"
             android:paddingStart="15dp"
             android:paddingEnd="15dp"
             android:layout_width="match_parent"
