@@ -13,6 +13,8 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -55,6 +57,14 @@ public class LoginActivity extends AppCompatActivity {
 
         loginEmail.setOnFocusChangeListener(focusListener);
         loginPassword.setOnFocusChangeListener(focusListener);
+
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleExit();
+            }
+        });
+
     }
 
     private void attemptLogin() {
@@ -101,4 +111,18 @@ public class LoginActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
         }
     }
+
+    private void handleExit() {
+        new AlertDialog.Builder(this)
+                .setTitle("Exit LuxeVista")
+                .setMessage("Are you sure you want to exit the app?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    dialog.dismiss();
+                    finishAffinity();
+                    System.exit(0);
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
 }
