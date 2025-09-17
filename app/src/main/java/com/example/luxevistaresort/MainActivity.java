@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
                     .setTitle("Confirm Logout")
                     .setMessage("Are you sure you want to log out?")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        // Logout logic
                         getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
                                 .edit()
                                 .remove(KEY_USER_ID)
