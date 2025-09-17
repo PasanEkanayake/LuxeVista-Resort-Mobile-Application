@@ -63,12 +63,26 @@ public class MainActivity extends AppCompatActivity {
         cardProfile.setOnClickListener(v -> startActivity(new Intent(this, ProfileActivity.class)));
 
         cardLogout.setOnClickListener(v -> {
-            getSharedPreferences(PREFS_NAME, MODE_PRIVATE).edit().remove(KEY_USER_ID).apply();
-            Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-            Intent i = new Intent(this, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirm Logout")
+                    .setMessage("Are you sure you want to log out?")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Logout logic
+                        getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
+                                .edit()
+                                .remove(KEY_USER_ID)
+                                .apply();
+
+                        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
+
+                        Intent i = new Intent(this, LoginActivity.class);
+                        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        startActivity(i);
+                    })
+                    .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                    .show();
         });
+
 
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
